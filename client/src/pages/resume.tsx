@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
+import { motion } from "framer-motion";
 import Navigation from "@/components/navigation";
 import HeroSection from "@/components/hero-section";
 import ExperienceSection from "@/components/experience-section";
@@ -9,6 +12,10 @@ import Footer from "@/components/footer";
 
 export default function Resume() {
   const [activeSection, setActiveSection] = useState("about");
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,6 +77,35 @@ export default function Resume() {
       <main className="pt-20">
         <HeroSection />
         <ExperienceSection />
+        
+        {/* Download PDF Section */}
+        <section className="py-12 bg-gray-50 no-print">
+          <div className="container mx-auto px-6">
+            <motion.div 
+              className="max-w-4xl mx-auto text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-2xl font-bold text-navy mb-4">
+                Download Resume
+              </h3>
+              <p className="text-gray-medium mb-6">
+                Get a PDF copy of this resume for your records
+              </p>
+              <Button 
+                onClick={handlePrint}
+                className="bg-blue-primary text-white hover:bg-navy transition-colors px-8 py-3 text-lg"
+                size="lg"
+              >
+                <Download className="w-5 h-5 mr-2" />
+                Download PDF
+              </Button>
+            </motion.div>
+          </div>
+        </section>
+        
         <ProjectsSection />
         <SkillsSection />
         <EducationSection />
