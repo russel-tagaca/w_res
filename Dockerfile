@@ -1,26 +1,14 @@
-# Use Node.js 20 Alpine as base image
-FROM node:20-alpine
-
-# Set working directory
+# Build stage
+FROM node:20-alpine AS build
 WORKDIR /app
-
-# Copy package files
 COPY package*.json ./
-
-# Install all dependencies (needed for build)
-RUN npm ci
-
-# Copy source code
 COPY . .
+RUN yarn install --frozen-lockfile
+RUN yarn build
 
-# Build the application
-RUN npm run build
-
-# Remove dev dependencies after build
-RUN npm prune --production
-
-# Expose port
-EXPOSE 5000
-
-# Start the application
-CMD ["npm", "start"]
+# Production stage
+FROM nginx:alpine
+COPY --from=build /app/dist/public /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

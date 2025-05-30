@@ -78,13 +78,6 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <button 
-              onClick={scrollToExperience}
-              className="inline-flex items-center bg-white text-navy px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors group"
-            >
-              View My Work
-              <ChevronDown className="w-4 h-4 ml-2 group-hover:translate-y-1 transition-transform" />
-            </button>
           </motion.div>
         </div>
       </div>

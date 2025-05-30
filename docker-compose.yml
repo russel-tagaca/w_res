@@ -1,36 +1,7 @@
-version: '3.8'
-
-networks:
-  traefik:
-    external: false
-
+version: "3.8"
 services:
-  traefik:
-    image: traefik:v3.0
-    container_name: traefik
-    restart: unless-stopped
+  web:
+    build: .
     ports:
       - "80:80"
-      - "170:170"
-      - "8080:8080"  # Traefik dashboard
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik.yml:/etc/traefik/traefik.yml:ro
-    networks:
-      - traefik
-
-  resume-app:
-    build: .
-    environment:
-      - NODE_ENV=production
     restart: unless-stopped
-    container_name: russel-resume
-    networks:
-      - traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.resume.rule=Host(`localhost`)"
-      - "traefik.http.routers.resume.entrypoints=web"
-      - "traefik.http.services.resume.loadbalancer.server.port=5000"
-      - "traefik.http.routers.resume-170.rule=Host(`localhost`)"
-      - "traefik.http.routers.resume-170.entrypoints=port170"
