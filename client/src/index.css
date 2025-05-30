@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --primary: 207 90% 54%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 60 4.8% 95.9%;
+  --secondary-foreground: 24 9.8% 10%;
+  --accent: 60 4.8% 95.9%;
+  --accent-foreground: 24 9.8% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 20 14.3% 4.1%;
+  --radius: 0.5rem;
+  
+  /* Custom resume colors */
+  --navy: 217 91% 18%; /* #1e3a8a */
+  --blue-primary: 217 91% 60%; /* #3b82f6 */
+  --blue-light: 213 93% 68%; /* #60a5fa */
+  --cyan-accent: 188 94% 42%; /* #06b6d4 */
+  --charcoal: 217 33% 17%; /* #1e293b */
+  --gray-medium: 215 16% 47%; /* #64748b */
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 207 90% 54%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .skill-badge {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .skill-badge:hover {
+    @apply -translate-y-1 shadow-lg;
+  }
+  
+  .nav-link {
+    @apply relative transition-colors duration-300 ease-in-out;
+  }
+  
+  .nav-link::after {
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-blue-primary transition-all duration-300 ease-in-out;
+    content: '';
+  }
+  
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    @apply w-full;
+  }
+  
+  .project-card {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .project-card:hover {
+    @apply -translate-y-2 shadow-xl;
+  }
+  
+  .timeline-item {
+    @apply relative;
+  }
+  
+  .timeline-item::before {
+    @apply absolute -left-2 top-6 w-4 h-4 bg-blue-primary border-4 border-white rounded-full shadow-md;
+    content: '';
+  }
+  
+  .timeline-line {
+    @apply absolute -left-0.5 top-10 bottom-0 w-0.5 bg-gradient-to-b from-blue-primary to-gray-200;
+  }
+}
+
+@layer utilities {
+  .text-navy {
+    color: hsl(var(--navy));
+  }
+  
+  .text-blue-primary {
+    color: hsl(var(--blue-primary));
+  }
+  
+  .text-blue-light {
+    color: hsl(var(--blue-light));
+  }
+  
+  .text-cyan-accent {
+    color: hsl(var(--cyan-accent));
+  }
+  
+  .text-charcoal {
+    color: hsl(var(--charcoal));
+  }
+  
+  .text-gray-medium {
+    color: hsl(var(--gray-medium));
+  }
+  
+  .bg-navy {
+    background-color: hsl(var(--navy));
+  }
+  
+  .bg-blue-primary {
+    background-color: hsl(var(--blue-primary));
+  }
+  
+  .bg-blue-light {
+    background-color: hsl(var(--blue-light));
+  }
+  
+  .bg-cyan-accent {
+    background-color: hsl(var(--cyan-accent));
+  }
+  
+  .bg-charcoal {
+    background-color: hsl(var(--charcoal));
+  }
+  
+  .bg-gray-medium {
+    background-color: hsl(var(--gray-medium));
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break {
+    page-break-before: always;
+  }
+  
+  body {
+    font-size: 12px;
+    color: black !important;
+    background: white !important;
+  }
+  
+  .container {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .shadow-lg,
+  .shadow-xl {
+    box-shadow: none !important;
+  }
+  
+  .bg-gradient-to-br,
+  .bg-gradient-to-r {
+    background: #3b82f6 !important;
+    color: white !important;
+  }
+}
