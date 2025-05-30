@@ -95,19 +95,6 @@ export default function Navigation({ activeSection }: NavigationProps) {
                       {item.label}
                     </motion.button>
                   ))}
-                  <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.5 }}
-                  >
-                    <Button 
-                      onClick={handlePrint}
-                      className="bg-blue-primary text-white hover:bg-navy transition-colors"
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Download PDF
-                    </Button>
-                  </motion.div>
                 </div>
                 
                 <button
@@ -139,13 +126,6 @@ export default function Navigation({ activeSection }: NavigationProps) {
                           {item.label}
                         </button>
                       ))}
-                      <Button 
-                        onClick={handlePrint}
-                        className="bg-blue-primary text-white hover:bg-navy transition-colors w-full"
-                      >
-                        <Download className="w-4 h-4 mr-2" />
-                        Download PDF
-                      </Button>
                     </div>
                   </motion.div>
                 )}
@@ -213,6 +193,24 @@ export default function Navigation({ activeSection }: NavigationProps) {
                     </motion.button>
                   );
                 })}
+                
+                {/* Download PDF Button */}
+                <motion.button
+                  onClick={handlePrint}
+                  className="group relative flex items-center p-3 rounded-lg transition-all duration-300 bg-navy text-white hover:bg-blue-primary shadow-md"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/20">
+                    <Download className="w-4 h-4" />
+                  </div>
+                  
+                  {/* Tooltip */}
+                  <div className="absolute left-full ml-4 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                    Download PDF
+                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-full border-4 border-transparent border-r-gray-900"></div>
+                  </div>
+                </motion.button>
               </div>
               
               {/* Progress indicator */}
@@ -284,6 +282,18 @@ export default function Navigation({ activeSection }: NavigationProps) {
                         </button>
                       );
                     })}
+                    
+                    {/* Download PDF Button */}
+                    <button
+                      onClick={() => {
+                        handlePrint();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full flex items-center p-3 rounded-lg text-left transition-colors bg-navy text-white hover:bg-blue-primary"
+                    >
+                      <Download className="w-4 h-4 mr-3" />
+                      Download PDF
+                    </button>
                   </div>
                 </motion.div>
               )}
