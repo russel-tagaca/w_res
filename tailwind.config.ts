@@ -61,6 +61,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Custom resume colors
+        navy: "hsl(var(--navy))",
+        "blue-primary": "hsl(var(--blue-primary))",
+        "blue-light": "hsl(var(--blue-light))",
+        "cyan-accent": "hsl(var(--cyan-accent))",
+        charcoal: "hsl(var(--charcoal))",
+        "gray-medium": "hsl(var(--gray-medium))",
       },
       keyframes: {
         "accordion-down": {
