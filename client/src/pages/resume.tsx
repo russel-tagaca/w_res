@@ -110,7 +110,6 @@ export default function Resume() {
         <SkillsSection />
         <EducationSection />
       </main>
-      <Footer />
     </div>
   );
 }
