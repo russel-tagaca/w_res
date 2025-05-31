@@ -10,6 +10,7 @@ interface NavigationProps {
 export default function Navigation({ activeSection }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const navItems = [
     { id: "about", label: "About", icon: User },
@@ -39,7 +40,11 @@ export default function Navigation({ activeSection }: NavigationProps) {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 100);
+      const documentHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollPercentage = documentHeight > 0 ? (scrollPosition / documentHeight) * 100 : 0;
+      
+      setIsScrolled(scrollPosition > 130);
+      setScrollProgress(Math.min(scrollPercentage, 100));
     };
 
     const handleResize = () => {
@@ -139,7 +144,7 @@ export default function Navigation({ activeSection }: NavigationProps) {
       <AnimatePresence>
         {isScrolled && (
           <motion.div
-            className="fixed left-6 top-1/2 transform -translate-y-1/2 z-50 no-print hidden lg:block"
+            className="fixed left-6 top-32 z-50 no-print hidden lg:block"
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -100, opacity: 0 }}
@@ -217,16 +222,16 @@ export default function Navigation({ activeSection }: NavigationProps) {
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
                   <span>Progress</span>
-                  <span>{Math.round(((navItems.findIndex(nav => nav.id === activeSection) + 1) / navItems.length) * 100)}%</span>
+                  <span>{Math.round(scrollProgress)}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <motion.div 
                     className="bg-blue-primary h-2 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ 
-                      width: `${((navItems.findIndex(nav => nav.id === activeSection) + 1) / navItems.length) * 100}%` 
+                      width: `${scrollProgress}%` 
                     }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.3 }}
                   />
                 </div>
               </div>
