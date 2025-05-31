@@ -1,21 +1,7 @@
-version: '3.8'
-
+version: "3.8"
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: production
+    build: .
     ports:
-      - "8080:80"
+      - "80:80"
     restart: unless-stopped
-    environment:
-      - NODE_ENV=production
-    networks:
-      - frontend
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      
-networks:
-  frontend:
-    driver: bridge
