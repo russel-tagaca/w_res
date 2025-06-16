@@ -21,6 +21,14 @@ export default function Resume() {
     const handleScroll = () => {
       const sections = ["about", "experience", "projects", "skills", "education"];
       const scrollPosition = window.scrollY + 100;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // If user is near the bottom of the page, set education as active
+      if (scrollPosition + windowHeight >= documentHeight - 50) {
+        setActiveSection("education");
+        return;
+      }
 
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
