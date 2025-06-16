@@ -145,9 +145,9 @@ export default function Navigation({ activeSection }: NavigationProps) {
         {isScrolled && (
           <motion.div
             className="fixed left-6 top-32 z-50 no-print hidden lg:block"
-            initial={{ x: -100, opacity: 0 }}
+            initial={{ x: -95, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -100, opacity: 0 }}
+            exit={{ x: -95, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
             <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-4">
