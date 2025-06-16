@@ -51,7 +51,7 @@ export const experiences: Experience[] = [
     title: "Software Test Engineer",
     company: "General Motors",
     location: "Warren, Michigan",
-    period: "03/2022 - Present",
+    period: "03/2022 - 06/2025",
     current: true,
     responsibilities: [
       "Worked closely with analysts and developers to build out functional/regression test strategies using automation scripts or for business process automations such as for hiring applicants on critical applications including Workday and UKG. Written in Python and Java.",
