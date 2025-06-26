@@ -34,8 +34,8 @@ export default function Navigation({ activeSection }: NavigationProps) {
   };
 
   const handleDownload = () => {
-    // Use full URL to bypass client-side router
-    window.location.href = '/download/resume';
+    // Use window.location to trigger download
+    window.location.href = '/api/download-resume';
   };
 
   useEffect(() => {
