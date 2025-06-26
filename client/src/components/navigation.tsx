@@ -34,13 +34,9 @@ export default function Navigation({ activeSection }: NavigationProps) {
   };
 
   const handleDownload = () => {
-  const link = document.createElement('a');
-  link.href = '/download/resume'; // Your Express route
-  link.download = 'ResumeE1.pdf'; // Optional: sets the filename
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
+    // Simply navigate to the download route - the server will handle the download
+    window.open('/download/resume', '_blank');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
