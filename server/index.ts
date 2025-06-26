@@ -40,6 +40,12 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
+  // Resume download route
+  app.get('/download/resume', (req: Request, res: Response) => {
+    const filePath = path.resolve('./ResumeE1.pdf');
+    res.download(filePath, 'ResumeE1.pdf');
+  });
+
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
@@ -61,16 +67,7 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
+  server.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
   });
 })();
-
-app.get('/download/resume', (req, res) => {
-  const filePath = path.join(__dirname, '..', 'ResumeE1.pdf');
-  res.download(filePath, 'ResumeE1.pdf');
-});

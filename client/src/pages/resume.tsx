@@ -13,9 +13,14 @@ import Footer from "@/components/footer";
 export default function Resume() {
   const [activeSection, setActiveSection] = useState("about");
 
-  const handlePrint = () => {
-    window.print();
-  };
+  const handleDownload = () => {
+  const link = document.createElement('a');
+  link.href = '/download/resume'; // Your Express route
+  link.download = 'ResumeE1.pdf'; // Optional: sets the filename
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 
   useEffect(() => {
     const handleScroll = () => {
@@ -103,7 +108,7 @@ export default function Resume() {
                 Get a PDF copy of this resume for your records
               </p>
               <Button 
-                onClick={handlePrint}
+                onClick={handleDownload}
                 className="bg-blue-primary text-white hover:bg-navy transition-colors px-8 py-3 text-lg"
                 size="lg"
               >
