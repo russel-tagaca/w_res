@@ -33,9 +33,14 @@ export default function Navigation({ activeSection }: NavigationProps) {
     setIsMobileMenuOpen(false);
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
+  const handleDownload = () => {
+  const link = document.createElement('a');
+  link.href = '/download/resume'; // Your Express route
+  link.download = 'ResumeE1.pdf'; // Optional: sets the filename
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 
   useEffect(() => {
     const handleScroll = () => {
@@ -201,7 +206,7 @@ export default function Navigation({ activeSection }: NavigationProps) {
                 
                 {/* Download PDF Button */}
                 <motion.button
-                  onClick={handlePrint}
+                  onClick={handleDownload}
                   className="group relative flex items-center p-3 rounded-lg transition-all duration-300 bg-navy text-white hover:bg-blue-primary shadow-md"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -291,7 +296,7 @@ export default function Navigation({ activeSection }: NavigationProps) {
                     {/* Download PDF Button */}
                     <button
                       onClick={() => {
-                        handlePrint();
+                        handleDownload();
                         setIsMobileMenuOpen(false);
                       }}
                       className="w-full flex items-center p-3 rounded-lg text-left transition-colors bg-navy text-white hover:bg-blue-primary"
