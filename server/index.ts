@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 
   // Resume download route
   app.get('/download/resume', (req: Request, res: Response) => {
-    const filePath = path.resolve('./ResumeE1.pdf');
+    const filePath = path.join(process.cwd(), 'ResumeE1.pdf');
     res.download(filePath, 'ResumeE1.pdf');
   });
 
