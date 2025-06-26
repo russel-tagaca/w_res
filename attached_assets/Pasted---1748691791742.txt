@@ -1,0 +1,12 @@
+                                                                                                                                           
+russel-resume  | Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /app/dist/index.js                                                                                
+russel-resume  |     at packageResolve (node:internal/modules/esm/resolve:873:9)                                                                                                          
+russel-resume  |     at moduleResolve (node:internal/modules/esm/resolve:946:18)                                                                                                          
+russel-resume  |     at defaultResolve (node:internal/modules/esm/resolve:1188:11)                                                                                                        
+russel-resume  |     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:642:12)                                                                                             
+russel-resume  |     at #cachedDefaultResolve (node:internal/modules/esm/loader:591:25)                                                                                                   
+russel-resume  |     at ModuleLoader.resolve (node:internal/modules/esm/loader:574:38)                                                                                                    
+russel-resume  |     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:236:38)                                                                                      
+russel-resume  |     at ModuleJob._link (node:internal/modules/esm/module_job:130:49) {                                                                                                   
+russel-resume  |   code: 'ERR_MODULE_NOT_FOUND'                                                                                                                                           
+russel-resume  | }                                           
