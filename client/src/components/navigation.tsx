@@ -34,8 +34,8 @@ export default function Navigation({ activeSection }: NavigationProps) {
   };
 
   const handleDownload = () => {
-    // Use window.location to trigger download
-    window.location.href = '/api/download-resume';
+    // Open in new tab to bypass client router completely
+    window.open('/api/download-resume', '_blank');
   };
 
   useEffect(() => {
