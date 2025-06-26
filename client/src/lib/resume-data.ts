@@ -54,13 +54,11 @@ export const experiences: Experience[] = [
     period: "03/2022 - 06/2025",
     current: true,
     responsibilities: [
-      "Worked closely with analysts and developers to build out functional/regression test strategies using automation scripts or for business process automations such as for hiring applicants on critical applications including Workday and UKG. Written in Python and Java.",
-      "Created automation systems that downloads web-scraped information, extracts data from the web while using them to perform API calls to other web services. All together- chaining API processes with others to streamline dataflows. Leveraged asynchronous programming and sometimes multithreading to execute tasks concurrently.",
-      "Built Azure Pipelines and Github Actions Workflows to perform scheduled daily builds on automation scripts.",
-      "Integrated Github Actions Workflows with Slack, enabling seamless code execution from the cloud using direct Slack messages to a channel, improving efficiency while minimizing manual efforts.",
-      "Contributed to reducing manual efforts in Workday by creating automation scripts for data creation or feature testing, saving the company at least 40,000 worker hours and over $2 million in labor costs.",
+      "Worked closely with analysts and developers to build out test strategies for smoke, functional, regression or validation test automation scripts for critical applications such as Workday and UKG. Written in .NET, Python, Java.",
+      "Guided a team of 5 other Software Engineers  to build a data driven testing infrastructure using Microsoft Playwright, Azure DevOps, connected SQL databases.",
       "Implemented multithreading and parallel execution in application test strategies, improving resource utilization and test runtime efficiency - resulting in improvements over 100%.",
-      "Enhanced test efficiency by using session-scoped fixtures in pytest to manage expensive or time-consuming operations."
+      "Developed a Python application to run automated tests in a monthly schedule. Integrated onto CI/CD pipelines foran  automated and continuous build-release-test environment.",
+      "Enhanced test efficiency by using session-scoped fixtures in pytest to manage test operations into different layers."
     ]
   },
   {
@@ -115,7 +113,7 @@ export const projects: Project[] = [
   },
   {
     title: "Simple Kubernetes Login App",
-    description: "Built a simple frontend React/Vite app that connects to a Flask python backend. The app is built and served using Docker. Traffic coming is load balanced and route handled by Traefik which also acts as a reverse proxy for the app infrastructure and sits in the cluster with the other containers.",
+    description: "Built a simple frontend React login app that connects to a Flask python backend served on Azure via Docker using a Virtual Machine. The app takes in an image and saves it to a blob storage. Incoming traffic is load balanced and routes are handled by Traefik which also acts as a reverse proxy for the app infrastructure and sits in the cluster with the other containers.",
     features: [
       "React/Vite frontend application",
       "Flask Python backend API",
