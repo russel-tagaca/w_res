@@ -14,8 +14,8 @@ export default function Resume() {
   const [activeSection, setActiveSection] = useState("about");
 
   const handleDownload = () => {
-    // Simply navigate to the download route - the server will handle the download
-    window.open('/download/resume', '_blank');
+    // Use full URL to bypass client-side router
+    window.location.href = '/download/resume';
   };
 
   useEffect(() => {
