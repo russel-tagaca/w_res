@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 
   // Resume download route
   app.get('/download/resume', (req: Request, res: Response) => {
-    const filePath = path.join(process.cwd(), 'ResumeE1.pdf');
+    const filePath = path.resolve('./attached_assets/ResumeE1.pdf');
     res.download(filePath, 'ResumeE1.pdf');
   });
 
@@ -67,7 +67,16 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = 5000;
-  server.listen(port, "0.0.0.0", () => {
+  server.listen({
+    port,
+    host: "0.0.0.0",
+    reusePort: true,
+  }, () => {
     log(`serving on port ${port}`);
   });
 })();
+
+app.get('/download/resume', (req, res) => {
+  const filePath = path.join(__dirname, '..', 'ResumeE1.pdf');
+  res.download(filePath, 'ResumeE1.pdf');
+});
