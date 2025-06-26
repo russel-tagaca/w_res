@@ -1,6 +1,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import path from 'path';
+import fs from 'fs';
 
 const app = express();
 app.use(express.json());
@@ -56,15 +58,33 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
+  // Add resume download route
+  app.get('/download/resume', (req, res) => {
+    const filePath = path.join(process.cwd(), 'attached_assets', 'ResumeE1.pdf');
+    console.log('Attempting to download file from:', filePath);
+    
+    // Check if file exists
+    if (!fs.existsSync(filePath)) {
+      console.error('File not found at:', filePath);
+      return res.status(404).json({ error: 'Resume file not found' });
+    }
+    
+    res.download(filePath, 'ResumeE1.pdf', (err) => {
+      if (err) {
+        console.error('Error downloading file:', err);
+        res.status(500).json({ error: 'Error downloading file' });
+      } else {
+        console.log('File downloaded successfully');
+      }
+    });
+  });
+
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
+  // Example: server/index.ts
+const PORT =  5000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
 })();

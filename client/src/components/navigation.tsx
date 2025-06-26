@@ -33,8 +33,26 @@ export default function Navigation({ activeSection }: NavigationProps) {
     setIsMobileMenuOpen(false);
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handleDownload = async () => {
+    try {
+      const response = await fetch('/download/resume');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'ResumeE1.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Failed to download resume. Please try again.');
+    }
   };
 
   useEffect(() => {
@@ -201,7 +219,7 @@ export default function Navigation({ activeSection }: NavigationProps) {
                 
                 {/* Download PDF Button */}
                 <motion.button
-                  onClick={handlePrint}
+                  onClick={handleDownload}
                   className="group relative flex items-center p-3 rounded-lg transition-all duration-300 bg-navy text-white hover:bg-blue-primary shadow-md"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -291,7 +309,7 @@ export default function Navigation({ activeSection }: NavigationProps) {
                     {/* Download PDF Button */}
                     <button
                       onClick={() => {
-                        handlePrint();
+                        handleDownload();
                         setIsMobileMenuOpen(false);
                       }}
                       className="w-full flex items-center p-3 rounded-lg text-left transition-colors bg-navy text-white hover:bg-blue-primary"
