@@ -40,10 +40,15 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
-  // Resume download route
-  app.get('/download/resume', (req: Request, res: Response) => {
-    const filePath = path.join(process.cwd(), 'ResumeE1.pdf');
-    res.download(filePath, 'ResumeE1.pdf');
+   // Add resume download route
+  app.get('/download/resume', (req, res) => {
+    const filePath = path.join(__dirname, '..', 'ResumeE1.pdf');
+    res.download(filePath, 'ResumeE1.pdf', (err) => {
+      if (err) {
+        console.error('Error downloading file:', err);
+        res.status(404).send('File not found');
+      }
+    });
   });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
