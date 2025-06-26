@@ -40,9 +40,9 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
-   // Add resume download route
+  // Add resume download route
   app.get('/download/resume', (req, res) => {
-    const filePath = path.join(__dirname, '..', 'ResumeE1.pdf');
+    const filePath = './ResumeE1.pdf';
     res.download(filePath, 'ResumeE1.pdf', (err) => {
       if (err) {
         console.error('Error downloading file:', err);
