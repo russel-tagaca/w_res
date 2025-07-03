@@ -27,9 +27,36 @@ fi
 echo "🛑 Stopping existing containers..."
 docker-compose down || true
 
+# Stop any nginx running on the host (to free up port 80)
+echo "🛑 Stopping host nginx if running..."
+sudo systemctl stop nginx || true
+sudo systemctl disable nginx || true
+
+# Kill any processes using port 80
+echo "🔍 Checking for processes using port 80..."
+sudo lsof -ti:80 | xargs sudo kill -9 || true
+
 # Build and start the application
 echo "🏗️ Building and starting the application..."
 docker-compose up --build -d
+
+# Configure host nginx if it exists and certificates are available
+if systemctl is-active --quiet nginx && [ -f "/etc/letsencrypt/live/russeltagaca.com/fullchain.pem" ]; then
+    echo "🔧 Configuring host nginx to proxy to Docker container..."
+    
+    # Copy nginx configuration
+    sudo cp host-nginx-config.conf /etc/nginx/sites-available/russeltagaca.com
+    sudo ln -sf /etc/nginx/sites-available/russeltagaca.com /etc/nginx/sites-enabled/
+    sudo rm -f /etc/nginx/sites-enabled/default
+    
+    # Test and reload nginx
+    if sudo nginx -t; then
+        sudo systemctl reload nginx
+        echo "✅ Host nginx configured successfully"
+    else
+        echo "❌ Nginx configuration test failed"
+    fi
+fi
 
 # Show container status
 echo "📊 Container status:"
@@ -41,8 +68,13 @@ echo ""
 echo "📝 Next steps:"
 echo "1. Configure your domain DNS to point to this Azure VM's public IP"
 echo "2. Open port 80 (and 443 for HTTPS) in Azure Network Security Group"
-echo "3. Consider setting up SSL certificates with Let's Encrypt"
+echo "3. SSL certificates are already configured with certbot"
 echo ""
-echo "🔐 To set up SSL certificates later, run:"
-echo "sudo apt install certbot python3-certbot-nginx"
-echo "sudo certbot --nginx -d russeltagaca.com -d www.russeltagaca.com"
+echo "� If you get port 80 conflicts, you have two options:"
+echo "Option A: Use Docker nginx (recommended)"
+echo "  - Stop host nginx: sudo systemctl stop nginx && sudo systemctl disable nginx"
+echo "  - Deploy with: ./deploy-azure.sh"
+echo ""
+echo "Option B: Use host nginx + Docker on different port"
+echo "  - Change docker-compose.yml ports to '8080:80'"
+echo "  - Configure host nginx to proxy to localhost:8080"
