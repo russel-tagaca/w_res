@@ -54,6 +54,8 @@ export const experiences: Experience[] = [
     period: "03/2022 - 06/2025",
     current: true,
     responsibilities: [
+      "Developed Python applications to run automated tests in a monthly schedule for apps such as Workday, UKG and GM hosted apps. These were then integrated onto CI/CD pipelines for an automated and continuous build release-test environment.",
+      "Developed automation scripts on applications for ETL operations using Pandas, REST APIs, and Python or Java.",
       "Worked closely with analysts and developers to build out test strategies for smoke, functional, regression or validation test automation scripts for critical applications such as Workday and UKG. Written in .NET, Python, Java.",
       "Guided a team of 5 other Software Engineers  to build a data driven testing infrastructure using Microsoft Playwright, Azure DevOps, connected SQL databases.",
       "Implemented multithreading and parallel execution in application test strategies, improving resource utilization and test runtime efficiency - resulting in improvements over 100%.",
@@ -113,7 +115,7 @@ export const projects: Project[] = [
   },
   {
     title: "Simple Kubernetes Login App",
-    description: "Built a simple frontend React login app that connects to a Flask python backend served on Azure via Docker using a Virtual Machine. The app takes in an image and saves it to a blob storage. Incoming traffic is load balanced and routes are handled by Traefik which also acts as a reverse proxy for the app infrastructure and sits in the cluster with the other containers.",
+    description: " Developed a React-based login app integrated with a Flask backend, deployed on an Azure Virtual Machine using Docker. Implemented image upload functionality to Azure Blob Storage. Configured Traefik as a reverse proxy and load balancer within a Docker cluster to manage routing and secure traffic flow across services.",
     features: [
       "React/Vite frontend application",
       "Flask Python backend API",
