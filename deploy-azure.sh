@@ -1,6 +1,18 @@
 #!/bin/bash
 
-# Azure VM Deployment Script for russeltagaca.com
+# Azure VM Deployment Script for echo "✅ Deployment complete!"
+echo "🌐 Your application should be available at: http://russeltagaca.com"
+echo ""
+echo "📝 Next steps:"
+echo "1. Configure your domain DNS to point to this Azure VM's public IP"
+echo "2. Open port 80 (and 443 for HTTPS) in Azure Network Security Group"
+echo ""
+echo "🔐 To set up SSL certificates in Docker container:"
+echo "1. Mount SSL certificates from host to container"
+echo "2. Update nginx.conf to enable SSL configuration"
+echo "3. Run: sudo certbot certonly --standalone -d russeltagaca.com -d www.russeltagaca.com"
+echo ""
+echo "🐳 Docker container nginx is now handling all web traffic on port 80"
 # Run this script on your Azure VM to deploy the application
 
 echo "🚀 Deploying Resume App to Azure VM..."
@@ -27,8 +39,8 @@ fi
 echo "🛑 Stopping existing containers..."
 docker-compose down || true
 
-# Stop any nginx running on the host (to free up port 80)
-echo "🛑 Stopping host nginx if running..."
+# Stop and disable host nginx completely (we want Docker nginx to handle everything)
+echo "🛑 Stopping and disabling host nginx..."
 sudo systemctl stop nginx || true
 sudo systemctl disable nginx || true
 
@@ -39,24 +51,6 @@ sudo lsof -ti:80 | xargs sudo kill -9 || true
 # Build and start the application
 echo "🏗️ Building and starting the application..."
 docker-compose up --build -d
-
-# Configure host nginx if it exists and certificates are available
-if systemctl is-active --quiet nginx && [ -f "/etc/letsencrypt/live/russeltagaca.com/fullchain.pem" ]; then
-    echo "🔧 Configuring host nginx to proxy to Docker container..."
-    
-    # Copy nginx configuration
-    sudo cp host-nginx-config.conf /etc/nginx/sites-available/russeltagaca.com
-    sudo ln -sf /etc/nginx/sites-available/russeltagaca.com /etc/nginx/sites-enabled/
-    sudo rm -f /etc/nginx/sites-enabled/default
-    
-    # Test and reload nginx
-    if sudo nginx -t; then
-        sudo systemctl reload nginx
-        echo "✅ Host nginx configured successfully"
-    else
-        echo "❌ Nginx configuration test failed"
-    fi
-fi
 
 # Show container status
 echo "📊 Container status:"
