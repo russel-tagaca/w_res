@@ -7,17 +7,20 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install ALL dependencies (including dev dependencies like Vite)
+RUN npm ci
 
 # Copy source code
 COPY . .
 
-# Build the application
+# Build the application (requires Vite for frontend build)
 RUN npm run build
 
-# Production stage
+# Production stage - nginx + Node.js backend
 FROM node:20-alpine AS production
+
+# Install nginx
+RUN apk add --no-cache nginx
 
 # Set working directory
 WORKDIR /app
@@ -25,33 +28,44 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install only production dependencies
+# Install only production dependencies for the backend
 RUN npm ci --only=production && npm cache clean --force
 
-# Copy built application from build stage
-COPY --from=build /app/dist ./dist
+# Install tsx globally to run TypeScript files
+RUN npm install -g tsx
+
+# Copy built frontend files to nginx document root
+COPY --from=build /app/dist/public /usr/share/nginx/html
+
+# Copy PDF files to nginx document root
+COPY --from=build /app/attached_assets /usr/share/nginx/html/attached_assets
+
+# Set proper permissions for nginx files
+RUN chmod -R 755 /usr/share/nginx/html
+
+# Copy backend files
 COPY --from=build /app/server ./server
 COPY --from=build /app/shared ./shared
-COPY --from=build /app/attached_assets ./attached_assets
 
-# Create non-root user for security
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/http.d/default.conf
 
-# Change ownership of the app directory
-RUN chown -R nextjs:nodejs /app
-USER nextjs
+# Create directories nginx needs
+RUN mkdir -p /var/log/nginx /var/lib/nginx/tmp /run/nginx
 
-# Expose port
-EXPOSE 5000
+# Create startup script to run both nginx and Node.js backend
+RUN echo '#!/bin/sh' > /start.sh && \
+    echo 'nginx -g "daemon off;" &' >> /start.sh && \
+    echo 'cd /app && PORT=5000 tsx server/index.ts &' >> /start.sh && \
+    echo 'wait' >> /start.sh && \
+    chmod +x /start.sh
+
+# Expose ports
+EXPOSE 80
 
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=5000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:5000/api/test || exit 1
-
-# Start the application
-CMD ["node", "dist/index.js"]
+# Start both services
+CMD ["/start.sh"]
